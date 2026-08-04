@@ -374,6 +374,17 @@
 
   .chart-scroll { overflow-x: auto; padding: 4px 2px 2px; -webkit-overflow-scrolling: touch; }
   .chart-scroll::-webkit-scrollbar { display: none; }
+
+  .backup-section { margin-top: 22px; }
+  .backup-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 18px; }
+  .backup-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 0.02em; margin-bottom: 5px; }
+  .backup-desc { font-family: 'Inter', sans-serif; font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
+  .backup-actions { display: flex; gap: 10px; }
+  .backup-actions .form-btn { flex: 1; padding: 11px; }
+  .backup-error {
+    margin-top: 10px; background: rgba(235,87,87,0.12); border: 1px solid rgba(235,87,87,0.3);
+    color: var(--danger); font-size: 12px; padding: 8px 12px; border-radius: 8px; text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -743,6 +754,7 @@
   let renamingProgramId = null;
   let undoToast = null; // { message, undo, timeoutId }
   let chartExerciseName = null;
+  let importError = null;
 
   function resetTransientState() {
     editMode = false;
@@ -753,6 +765,7 @@
     suppAddFormOpen = false;
     newProgramFormOpen = false;
     renamingProgramId = null;
+    importError = null;
   }
 
   function showUndoToast(opts) {
@@ -893,6 +906,60 @@
   }
 
   function escAttr(str) { return String(str || "").replace(/"/g, "&quot;"); }
+
+  function exportAllData() {
+    const data = {};
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.indexOf("homegym-") === 0) {
+          data[key] = localStorage.getItem(key);
+        }
+      }
+    } catch (e) {}
+    return { app: "home-gym-tracker", exportedAt: new Date().toISOString(), version: 1, data };
+  }
+
+  function downloadJSON(filename, dataObj) {
+    try {
+      const blob = new Blob([JSON.stringify(dataObj, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function importBackupFile(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(reader.result);
+        const data = parsed && parsed.data && typeof parsed.data === "object" ? parsed.data : parsed;
+        const keys = Object.keys(data || {}).filter(k => k.indexOf("homegym-") === 0);
+        if (keys.length === 0) throw new Error("no recognizable data");
+        keys.forEach(k => {
+          try { localStorage.setItem(k, data[k]); } catch (e) {}
+        });
+        location.reload();
+      } catch (e) {
+        importError = "That file doesn't look like a valid Home Gym backup.";
+        render();
+      }
+    };
+    reader.onerror = () => {
+      importError = "Couldn't read that file.";
+      render();
+    };
+    reader.readAsText(file);
+  }
 
   function extractNumber(str) {
     const m = String(str || "").match(/(\d+(\.\d+)?)/);
@@ -1543,6 +1610,19 @@
         </div>`
       : `<button class="add-exercise-btn" id="open-add-program">+ New program</button>`;
 
+    const backupHTML = `
+      <div class="backup-section">
+        <div class="backup-divider"></div>
+        <div class="backup-title">Backup &amp; Restore</div>
+        <div class="backup-desc">Save all your programs, weekly logs, and supplements to a file you can keep somewhere safe — or restore from one.</div>
+        <div class="backup-actions">
+          <button class="form-btn secondary" id="export-backup-btn">⬇ Export Backup</button>
+          <button class="form-btn secondary" id="import-backup-btn">⬆ Import Backup</button>
+        </div>
+        <input type="file" id="import-backup-input" accept="application/json" style="display:none;" />
+        ${importError ? `<div class="backup-error">${importError}</div>` : ""}
+      </div>`;
+
     app.innerHTML = `
       <div class="header">
         <div class="header-text">
@@ -1553,6 +1633,7 @@
       </div>
       <div class="history-list">${rowsHTML}</div>
       ${addSectionHTML}
+      ${backupHTML}
     `;
 
     document.getElementById("back-to-today-from-programs-btn").addEventListener("click", () => {
@@ -1560,6 +1641,29 @@
       resetTransientState();
       render();
     });
+
+    const exportBtn = app.querySelector("#export-backup-btn");
+    if (exportBtn) {
+      exportBtn.addEventListener("click", () => {
+        const payload = exportAllData();
+        const filename = `home-gym-backup-${todayDateStr()}.json`;
+        const ok = downloadJSON(filename, payload);
+        importError = ok ? null : "Couldn't create the backup file on this device.";
+        render();
+      });
+    }
+
+    const importInput = app.querySelector("#import-backup-input");
+    const importBtn = app.querySelector("#import-backup-btn");
+    if (importBtn && importInput) {
+      importBtn.addEventListener("click", () => importInput.click());
+      importInput.addEventListener("change", (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        importError = null;
+        importBackupFile(file);
+      });
+    }
 
     app.querySelectorAll("[data-switch-program]").forEach(el => {
       el.addEventListener("click", () => {
