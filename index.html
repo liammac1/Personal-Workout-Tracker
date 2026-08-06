@@ -28,6 +28,8 @@
     --accent-dim: #9c7d33;
     --rest: #7c8fa6;
     --danger: #eb5757;
+    --superset: #8b7fd1;
+    --dropset: #ff8a4c;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -130,7 +132,37 @@
 
   .card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 18px 16px 8px; }
   .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; gap: 10px; }
-  .focus-label { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.01em; line-height: 1.1; }
+  .focus-label { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.01em; line-height: 1.1; flex: 1; min-width: 0; }
+
+  .day-title-input {
+    flex: 1;
+    min-width: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.01em;
+    background: var(--surface-alt);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: var(--text-primary);
+    outline: none;
+  }
+  .day-title-input:focus { border-color: var(--accent); }
+
+  .exercise-info.edit-fields { display: flex; flex-direction: column; gap: 6px; }
+  .inline-edit-input {
+    background: var(--surface-alt);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 7px;
+    padding: 7px 9px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    width: 100%;
+  }
+  .inline-edit-input.name-input { font-size: 14px; font-weight: 500; }
+  .inline-edit-input.target-input { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--accent-dim); }
+  .inline-edit-input:focus { border-color: var(--accent); }
   .card-head-right { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
   .progress-chip { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent); font-weight: 600; white-space: nowrap; }
 
@@ -208,6 +240,76 @@
 
   .expand-chevron { flex: 0 0 auto; color: var(--steel-light); font-size: 11px; padding: 4px; cursor: pointer; user-select: none; }
 
+  .exercise-row-wrap.in-superset { border-left: 3px solid var(--superset); padding-left: 8px; margin-left: -2px; }
+  .exercise-row-wrap.in-superset .exercise-row { padding-left: 2px; }
+  .superset-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--superset);
+    padding: 8px 2px 2px;
+  }
+
+  .group-toggle-btn {
+    flex: 0 0 auto;
+    width: 24px; height: 24px;
+    border-radius: 7px;
+    border: 1.5px solid var(--steel-light);
+    background: transparent;
+    color: var(--text-primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+  }
+  .group-toggle-btn.selected { background: var(--superset); border-color: var(--superset); color: #16121f; }
+  .group-toggle-btn.labeled { background: rgba(139,127,209,0.15); border-color: var(--superset); color: var(--superset); }
+
+  .group-action-btn { border-color: var(--superset); color: var(--superset); }
+  .group-action-btn:active { border-color: var(--superset); }
+
+  .pr-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a1200;
+    background: var(--accent);
+    padding: 2px 6px;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .dropset-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--dropset);
+    background: rgba(255,138,76,0.12);
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-top: 4px;
+  }
+
+  .dropset-toggle-btn {
+    flex: 0 0 auto;
+    width: 24px; height: 24px;
+    border-radius: 7px;
+    border: 1.5px solid var(--steel-light);
+    background: transparent;
+    color: var(--text-secondary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9.5px; font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+  }
+  .dropset-toggle-btn.active { background: var(--dropset); border-color: var(--dropset); color: #2a1200; }
+
+  .sets-pill.has-dropset { border-color: var(--dropset); }
+
   .sets-pill {
     flex: 0 0 auto;
     font-family: 'IBM Plex Mono', monospace;
@@ -269,6 +371,34 @@
     color: var(--accent); background: rgba(255,201,74,0.1); padding: 2px 7px; border-radius: 6px;
   }
   .history-row-stat { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--text-secondary); }
+
+  .year-section { margin-bottom: 18px; }
+  .year-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--steel-light); margin-bottom: 10px;
+  }
+  .month-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .month-tile {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;
+    padding: 14px 8px; cursor: pointer;
+  }
+  .month-tile-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--text-primary); }
+  .month-tile-stat { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text-secondary); }
+
+  .stats-card { margin-bottom: 16px; padding: 16px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat-tile { background: var(--surface-alt); border-radius: 10px; padding: 12px; text-align: center; }
+  .stat-value { display: block; font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--accent); }
+  .stat-label {
+    display: block; font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--text-secondary); margin-top: 4px;
+  }
+
+  .week-stats-strip {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-secondary); text-align: center;
+    margin-bottom: 14px; padding: 10px; background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;
+  }
 
   .history-detail { display: flex; flex-direction: column; gap: 14px; }
   .history-day { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 14px 16px; }
@@ -385,6 +515,102 @@
     margin-top: 10px; background: rgba(235,87,87,0.12); border: 1px solid rgba(235,87,87,0.3);
     color: var(--danger); font-size: 12px; padding: 8px 12px; border-radius: 8px; text-align: center;
   }
+
+  .timer-card { margin-bottom: 14px; }
+  .timer-title { font-size: 22px; }
+
+  .timer-mode-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 4px 9px;
+    border-radius: 7px;
+    white-space: nowrap;
+  }
+  .timer-mode-badge.exercise { background: rgba(255,201,74,0.15); color: var(--accent); }
+  .timer-mode-badge.rest { background: rgba(124,143,166,0.15); color: var(--rest); }
+
+  .timer-total-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 46px;
+    letter-spacing: 0.02em;
+    text-align: center;
+    color: var(--text-primary);
+    margin: 8px 0 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rest-countdown {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rest);
+    background: rgba(124,143,166,0.12);
+    border-radius: 9px;
+    padding: 8px;
+    margin: -6px 0 14px;
+  }
+  .rest-countdown.over {
+    color: var(--danger);
+    background: rgba(235,87,87,0.14);
+    animation: rest-pulse 1s ease-in-out infinite;
+  }
+  @keyframes rest-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+
+  .timer-split-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .timer-split { flex: 1; background: var(--surface-alt); border-radius: 10px; padding: 10px; text-align: center; }
+  .timer-split-label {
+    display: block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px;
+  }
+  .timer-split-value {
+    font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600;
+    color: var(--text-primary); font-variant-numeric: tabular-nums;
+  }
+
+  .timer-actions { display: flex; gap: 10px; }
+  .timer-actions .form-btn { flex: 1; padding: 12px; }
+  .form-btn.danger { background: var(--danger); color: white; }
+
+  .timer-banner { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; }
+  .timer-banner-text { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-secondary); }
+  .timer-banner-text span { color: var(--accent); font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
+
+  .timer-last-summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text-secondary); margin-bottom: 10px;
+  }
+  .timer-summary-split { color: var(--steel-light); }
+  .timer-clear-btn {
+    flex: 0 0 auto;
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    border: 1px solid rgba(235,87,87,0.4);
+    background: rgba(235,87,87,0.12);
+    color: var(--danger);
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+
+  .timer-discard-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--steel-light);
+    text-decoration: underline;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -451,6 +677,7 @@
   const PROGRAM_STORAGE_KEY = "homegym-program-v1";
   const PROGRAMS_STORE_KEY = "homegym-programs-v1";
   const SUPP_SETTINGS_KEY = "homegym-supp-settings-v1";
+  const ACTIVE_SESSION_KEY = "homegym-active-session-v1";
   const SUPPLEMENTS_LIST_KEY = "homegym-supplements-list-v1";
 
   const DEFAULT_SUPPLEMENTS = [
@@ -511,6 +738,195 @@
   function todayDateStr() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+
+  function loadActiveSession() {
+    try {
+      const raw = localStorage.getItem(ACTIVE_SESSION_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return null;
+  }
+  function saveActiveSession() {
+    try {
+      if (activeSession) localStorage.setItem(ACTIVE_SESSION_KEY, JSON.stringify(activeSession));
+      else localStorage.removeItem(ACTIVE_SESSION_KEY);
+    } catch (e) {}
+  }
+
+  const REST_TIMER_SECONDS = 90;
+  let audioCtx = null;
+
+  function primeAudio() {
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+      catch (e) {}
+    } else if (audioCtx.state === "suspended") {
+      try { audioCtx.resume(); } catch (e) {}
+    }
+  }
+
+  function playRestCompleteSound() {
+    if (!audioCtx) return;
+    try {
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      const now = audioCtx.currentTime;
+      [0, 0.18].forEach(offset => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = 880;
+        gain.gain.setValueAtTime(0.0001, now + offset);
+        gain.gain.exponentialRampToValueAtTime(0.35, now + offset + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + 0.15);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now + offset);
+        osc.stop(now + offset + 0.16);
+      });
+    } catch (e) {}
+  }
+
+  function startWorkoutSession(dayKey) {
+    primeAudio();
+    const now = Date.now();
+    activeSession = {
+      dayKey,
+      weekKey: weekKey,
+      mode: "exercise",
+      modeStartedAt: now,
+      exerciseSeconds: 0,
+      restSeconds: 0,
+      sessionStartedAt: now,
+      restAlertFired: false,
+    };
+    saveActiveSession();
+  }
+
+  function toggleSessionMode() {
+    if (!activeSession) return;
+    primeAudio();
+    const now = Date.now();
+    const elapsed = Math.floor((now - activeSession.modeStartedAt) / 1000);
+    if (activeSession.mode === "exercise") activeSession.exerciseSeconds += elapsed;
+    else activeSession.restSeconds += elapsed;
+    activeSession.mode = activeSession.mode === "exercise" ? "rest" : "exercise";
+    activeSession.modeStartedAt = now;
+    activeSession.restAlertFired = false;
+    saveActiveSession();
+  }
+
+  function stopWorkoutSession() {
+    if (!activeSession) return null;
+    const now = Date.now();
+    const elapsed = Math.floor((now - activeSession.modeStartedAt) / 1000);
+    if (activeSession.mode === "exercise") activeSession.exerciseSeconds += elapsed;
+    else activeSession.restSeconds += elapsed;
+
+    const summary = {
+      totalSeconds: activeSession.exerciseSeconds + activeSession.restSeconds,
+      exerciseSeconds: activeSession.exerciseSeconds,
+      restSeconds: activeSession.restSeconds,
+      startedAt: activeSession.sessionStartedAt,
+      endedAt: now,
+    };
+
+    const sessDayKey = activeSession.dayKey;
+    const sessWeekKey = activeSession.weekKey;
+    const wp = sessWeekKey === weekKey ? progress : loadProgress(sessWeekKey);
+    const dp = { ...(wp[sessDayKey] || {}) };
+    dp.workoutTimer = summary;
+    const newWp = { ...wp, [sessDayKey]: dp };
+    saveProgress(sessWeekKey, newWp);
+    if (sessWeekKey === weekKey) progress = newWp;
+
+    activeSession = null;
+    saveActiveSession();
+    return summary;
+  }
+
+  function discardWorkoutSession() {
+    if (!activeSession) return;
+    const snapshot = { ...activeSession };
+    activeSession = null;
+    saveActiveSession();
+    showUndoToast({
+      message: "Workout session discarded",
+      undo: () => {
+        activeSession = snapshot;
+        saveActiveSession();
+      },
+    });
+  }
+
+  function clearWorkoutTimer(dayKey) {
+    const dp = progress[dayKey];
+    if (!dp || !dp.workoutTimer) return;
+    const removed = dp.workoutTimer;
+    const newDp = { ...dp };
+    delete newDp.workoutTimer;
+    progress = { ...progress, [dayKey]: newDp };
+    saveProgress(weekKey, progress);
+    showUndoToast({
+      message: "Workout session cleared",
+      undo: () => {
+        const dp2 = { ...(progress[dayKey] || {}) };
+        dp2.workoutTimer = removed;
+        progress = { ...progress, [dayKey]: dp2 };
+        saveProgress(weekKey, progress);
+      },
+    });
+  }
+
+  function currentElapsedSeconds(session) {
+    const now = Date.now();
+    const runningElapsed = Math.floor((now - session.modeStartedAt) / 1000);
+    const exerciseSeconds = session.exerciseSeconds + (session.mode === "exercise" ? runningElapsed : 0);
+    const restSeconds = session.restSeconds + (session.mode === "rest" ? runningElapsed : 0);
+    return { exerciseSeconds, restSeconds, totalSeconds: exerciseSeconds + restSeconds };
+  }
+
+  function restCountdownInfo(session) {
+    if (!session || session.mode !== "rest") return null;
+    const elapsed = Math.floor((Date.now() - session.modeStartedAt) / 1000);
+    const remaining = REST_TIMER_SECONDS - elapsed;
+    return { elapsed, remaining, isOver: remaining <= 0 };
+  }
+
+  function formatDuration(totalSeconds) {
+    const s = Math.max(0, Math.floor(totalSeconds));
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+    return `${m}:${String(sec).padStart(2, "0")}`;
+  }
+
+  function tickTimerDisplay() {
+    if (!activeSession) return;
+    const { exerciseSeconds, restSeconds, totalSeconds } = currentElapsedSeconds(activeSession);
+    const totalEl = document.getElementById("timer-total");
+    if (totalEl) totalEl.textContent = formatDuration(totalSeconds);
+    const exEl = document.getElementById("timer-exercise");
+    if (exEl) exEl.textContent = formatDuration(exerciseSeconds);
+    const restEl = document.getElementById("timer-rest");
+    if (restEl) restEl.textContent = formatDuration(restSeconds);
+    const bannerEl = document.getElementById("timer-banner-elapsed");
+    if (bannerEl) bannerEl.textContent = formatDuration(totalSeconds);
+
+    const rc = restCountdownInfo(activeSession);
+    if (rc) {
+      if (rc.isOver && !activeSession.restAlertFired) {
+        activeSession.restAlertFired = true;
+        saveActiveSession();
+        playRestCompleteSound();
+      }
+      const rcEl = document.getElementById("timer-rest-countdown");
+      if (rcEl) {
+        rcEl.textContent = rc.isOver ? `Rest complete +${formatDuration(-rc.remaining)}` : `Rest: ${formatDuration(rc.remaining)} left`;
+        rcEl.classList.toggle("over", rc.isOver);
+      }
+    }
   }
 
   function loadSuppSettings() {
@@ -595,12 +1011,31 @@
 
   function saveProgram() { saveProgramsStore(); }
 
+  // Repairs days that were incorrectly left as "training days" with zero exercises
+  // (a state that could previously occur when a rest day's last exercise was removed).
+  // Safe to run any time a program's days are loaded — a no-op on already-healthy data.
+  function sanitizeProgramDays(days) {
+    let changed = false;
+    (days || []).forEach(day => {
+      const hasExercises = Array.isArray(day.exercises) && day.exercises.length > 0;
+      if (!day.rest && !hasExercises) {
+        day.rest = true;
+        if (day.focus === "Custom Day") day.focus = "Rest";
+        if (!day.note) {
+          day.note = "Full rest day. Light walking / stretching optional. Prioritize sleep and protein intake.";
+        }
+        changed = true;
+      }
+    });
+    return changed;
+  }
+
   function switchProgram(id) {
     const entry = PROGRAMS_STORE.programs.find(p => p.id === id);
     if (!entry) return;
     PROGRAMS_STORE.activeId = id;
     PROGRAM = entry.days;
-    saveProgramsStore();
+    if (sanitizeProgramDays(PROGRAM)) saveProgramsStore();
   }
 
   function createProgram(name) {
@@ -732,19 +1167,66 @@
     return { daysWithActivity, exercisesLogged };
   }
 
+  function groupWeeksByMonth() {
+    const weeks = listStoredWeeks();
+    const byMonth = {};
+    weeks.forEach(wk => {
+      const monthKey = wk.slice(0, 7);
+      if (!byMonth[monthKey]) byMonth[monthKey] = [];
+      byMonth[monthKey].push(wk);
+    });
+    return byMonth;
+  }
+
+  function computeMonthStats(weekKeys) {
+    let daysActive = 0;
+    let exercisesLogged = 0;
+    let setsLogged = 0;
+    let totalWeightVolume = 0;
+    let totalDurationSeconds = 0;
+    let sessionsWithDuration = 0;
+
+    weekKeys.forEach(wk => {
+      const wp = loadProgress(wk);
+      DAY_ORDER.forEach(dayKey => {
+        const entries = wp[dayKey] || {};
+        let dayHasDone = false;
+        Object.keys(entries).forEach(exId => {
+          if (exId === "supplements" || exId === "workoutTimer") return;
+          const norm = normalizeEntryRaw(entries[exId]);
+          if (norm.done) { exercisesLogged++; dayHasDone = true; }
+          if (norm.setsCompleted > 0) setsLogged += norm.setsCompleted;
+          const w = extractNumber(norm.weight);
+          const r = extractNumber(norm.reps);
+          if (w !== null && r !== null) totalWeightVolume += w * r;
+        });
+        if (dayHasDone) daysActive++;
+        if (entries.workoutTimer) {
+          totalDurationSeconds += entries.workoutTimer.totalSeconds || 0;
+          sessionsWithDuration++;
+        }
+      });
+    });
+
+    const avgDuration = sessionsWithDuration > 0 ? Math.round(totalDurationSeconds / sessionsWithDuration) : 0;
+    return { daysActive, exercisesLogged, setsLogged, totalWeightVolume, totalDurationSeconds, sessionsWithDuration, avgDuration, weeksCount: weekKeys.length };
+  }
+
   // -------------------------------------------------------------------------
   // State
   // -------------------------------------------------------------------------
   let PROGRAMS_STORE = loadProgramsStore();
   let PROGRAM = getActiveProgramEntry().days;
+  if (sanitizeProgramDays(PROGRAM)) saveProgramsStore();
   let weekKey = getWeekKey();
   let activeDay = todayKey();
   let progress = loadProgress(weekKey);
   let editMode = false;
   let addFormOpen = false;
   let expandedSet = new Set();
-  let view = "today"; // 'today' | 'history-list' | 'history-detail' | 'programs-list'
+  let view = "today"; // 'today' | 'history-months' | 'history-month-detail' | 'history-detail' | 'programs-list' | 'charts-list' | 'chart-detail'
   let historyWeekKey = null;
+  let historyMonthKey = null;
   let SUPP_SETTINGS = loadSuppSettings();
   let suppSettingsOpen = false;
   let SUPPLEMENTS_LIST = loadSupplementsList();
@@ -755,6 +1237,8 @@
   let undoToast = null; // { message, undo, timeoutId }
   let chartExerciseName = null;
   let importError = null;
+  let activeSession = loadActiveSession();
+  let groupSelectSet = new Set();
 
   function resetTransientState() {
     editMode = false;
@@ -766,6 +1250,7 @@
     newProgramFormOpen = false;
     renamingProgramId = null;
     importError = null;
+    groupSelectSet = new Set();
   }
 
   function showUndoToast(opts) {
@@ -780,6 +1265,23 @@
   function dismissUndoToast() {
     if (undoToast && undoToast.timeoutId) clearTimeout(undoToast.timeoutId);
     undoToast = null;
+  }
+
+  function toastMarkup() {
+    if (!undoToast) return "";
+    const undoBtnHTML = undoToast.undo ? `<button id="undo-toast-btn">Undo</button>` : "";
+    return `<div class="undo-toast"><span>${undoToast.message}</span>${undoBtnHTML}</div>`;
+  }
+
+  function bindToastEvents(app) {
+    const undoBtn = app.querySelector("#undo-toast-btn");
+    if (undoBtn) {
+      undoBtn.addEventListener("click", () => {
+        if (undoToast && undoToast.undo) undoToast.undo();
+        dismissUndoToast();
+        render();
+      });
+    }
   }
 
   function trainingDayKeys() { return PROGRAM.filter(d => !d.rest).map(d => d.key); }
@@ -848,7 +1350,19 @@
     if (!day || !Array.isArray(day.exercises)) return;
     const idx = day.exercises.findIndex(e => e.id === exId);
     if (idx === -1) return;
+    const supersetSnapshot = day.exercises.map(ex => ({ id: ex.id, supersetId: ex.supersetId }));
     const [removed] = day.exercises.splice(idx, 1);
+    dissolveSingletonGroups(day);
+
+    let revertedToRest = false;
+    if (day.exercises.length === 0 && !day.rest) {
+      day.rest = true;
+      if (!day.note) {
+        day.note = "Full rest day. Light walking / stretching optional. Prioritize sleep and protein intake.";
+      }
+      revertedToRest = true;
+    }
+
     let removedProgressEntry = null;
     if (progress[dayKey] && progress[dayKey][exId] !== undefined) {
       removedProgressEntry = progress[dayKey][exId];
@@ -861,8 +1375,18 @@
       undo: () => {
         const d = PROGRAM.find(dd => dd.key === dayKey);
         if (d) {
+          if (revertedToRest) d.rest = false;
+          if (!Array.isArray(d.exercises)) d.exercises = [];
           const insertAt = Math.min(idx, d.exercises.length);
           d.exercises.splice(insertAt, 0, removed);
+          // restore every exercise's superset membership exactly as it was, undoing any auto-dissolve
+          supersetSnapshot.forEach(snap => {
+            const ex = d.exercises.find(e => e.id === snap.id);
+            if (ex) {
+              if (snap.supersetId) ex.supersetId = snap.supersetId;
+              else delete ex.supersetId;
+            }
+          });
           saveProgram();
         }
         if (removedProgressEntry !== null) {
@@ -873,6 +1397,58 @@
         }
       },
     });
+  }
+
+  function generateSupersetId() {
+    return "ss-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+
+  function dissolveSingletonGroups(day) {
+    if (!Array.isArray(day.exercises)) return;
+    const counts = {};
+    day.exercises.forEach(ex => {
+      if (ex.supersetId) counts[ex.supersetId] = (counts[ex.supersetId] || 0) + 1;
+    });
+    day.exercises.forEach(ex => {
+      if (ex.supersetId && counts[ex.supersetId] < 2) delete ex.supersetId;
+    });
+  }
+
+  function createSuperset(dayKey) {
+    const day = PROGRAM.find(d => d.key === dayKey);
+    if (!day || !Array.isArray(day.exercises) || groupSelectSet.size < 2) return;
+    const id = generateSupersetId();
+    day.exercises.forEach(ex => {
+      if (groupSelectSet.has(ex.id)) ex.supersetId = id;
+    });
+    groupSelectSet = new Set();
+    saveProgram();
+  }
+
+  function removeFromSuperset(dayKey, exId) {
+    const day = PROGRAM.find(d => d.key === dayKey);
+    if (!day || !Array.isArray(day.exercises)) return;
+    const ex = day.exercises.find(e => e.id === exId);
+    if (!ex) return;
+    delete ex.supersetId;
+    dissolveSingletonGroups(day);
+    saveProgram();
+  }
+
+  function computeSupersetLabels(exercises) {
+    const counts = {};
+    (exercises || []).forEach(ex => {
+      if (ex.supersetId) counts[ex.supersetId] = (counts[ex.supersetId] || 0) + 1;
+    });
+    const labels = {};
+    let nextCharCode = 65; // 'A'
+    (exercises || []).forEach(ex => {
+      if (ex.supersetId && counts[ex.supersetId] >= 2 && !labels[ex.supersetId]) {
+        labels[ex.supersetId] = String.fromCharCode(nextCharCode);
+        nextCharCode++;
+      }
+    });
+    return labels;
   }
 
   function barbellSVG(completedCount, total) {
@@ -974,7 +1550,7 @@
       DAY_ORDER.forEach(dayKey => {
         const entries = wp[dayKey] || {};
         Object.keys(entries).forEach(exId => {
-          if (exId === "supplements") return;
+          if (exId === "supplements" || exId === "workoutTimer") return;
           const norm = normalizeEntryRaw(entries[exId]);
           if (!norm.weight) return;
           const value = extractNumber(norm.weight);
@@ -987,6 +1563,14 @@
     });
     Object.keys(byName).forEach(name => byName[name].sort((a, b) => a.date - b.date));
     return byName;
+  }
+
+  function isNewPR(weightHistory, name, currentDateMs, currentValue) {
+    if (!weightHistory || currentValue === null) return false;
+    const points = weightHistory[name] || [];
+    const priorValues = points.filter(p => p.date.getTime() !== currentDateMs).map(p => p.value);
+    if (priorValues.length === 0) return false;
+    return currentValue > Math.max(...priorValues);
   }
 
   function buildLineChartSVG(points) {
@@ -1042,20 +1626,37 @@
     }
 
     const focusLabel = day.focus.includes("—") ? day.focus.split("—")[1].trim() : day.focus;
+    const supersetLabels = computeSupersetLabels(exercises);
+    const weightHistory = editMode ? null : collectWeightHistory();
+    let prevSupersetId = null;
 
     let rowsHTML;
     if (exercises.length === 0) {
       rowsHTML = `<div class="empty-state">${editMode ? 'No exercises yet — add one below.' : 'Nothing scheduled. Tap ✎ to add exercises.'}</div>`;
     } else {
       rowsHTML = exercises.map(ex => {
+        const groupLabel = ex.supersetId ? supersetLabels[ex.supersetId] : null;
+        const startsGroup = groupLabel && ex.supersetId !== prevSupersetId;
+        prevSupersetId = ex.supersetId || null;
+        const groupTagHTML = startsGroup ? `<div class="superset-tag">SUPERSET ${groupLabel}</div>` : "";
+        const groupClass = groupLabel ? "in-superset" : "";
+
         if (editMode) {
-          return `<div class="exercise-row-wrap" data-ex-id="${ex.id}">
+          const selected = groupSelectSet.has(ex.id);
+          const groupBtnHTML = groupLabel
+            ? `<button class="group-toggle-btn labeled" data-ungroup-ex="${ex.id}" title="Remove from superset ${groupLabel}">${groupLabel}</button>`
+            : `<button class="group-toggle-btn ${selected ? 'selected' : ''}" data-group-select="${ex.id}" title="Select for superset">${selected ? '✓' : ''}</button>`;
+          const dropsetBtnHTML = `<button class="dropset-toggle-btn ${ex.dropSet ? 'active' : ''}" data-dropset-ex="${ex.id}" title="${ex.dropSet ? 'Remove drop set' : 'Mark last set as a drop set'}">DS</button>`;
+          return `<div class="exercise-row-wrap ${groupClass}" data-ex-id="${ex.id}">
+            ${groupTagHTML}
             <div class="exercise-row edit-row">
               <div class="drag-handle" data-drag-ex="${ex.id}">${GRIP_SVG}</div>
               <button class="remove-btn" data-remove-ex="${ex.id}" title="Remove">✕</button>
-              <div class="exercise-info" style="cursor:default;">
-                <div class="exercise-name">${ex.name}</div>
-                <div class="exercise-target">${ex.target}</div>
+              ${groupBtnHTML}
+              ${dropsetBtnHTML}
+              <div class="exercise-info edit-fields">
+                <input type="text" class="inline-edit-input name-input" value="${escAttr(ex.name)}" data-rename-ex="${ex.id}" data-field="name" maxlength="60" />
+                <input type="text" class="inline-edit-input target-input" value="${escAttr(ex.target)}" data-rename-ex="${ex.id}" data-field="target" maxlength="30" />
               </div>
             </div>
           </div>`;
@@ -1064,11 +1665,16 @@
         const expanded = expandedSet.has(ex.id);
         const totalSets = parseTotalSets(ex.target);
         const setsComplete = entry.setsCompleted >= totalSets;
+        const currentValue = extractNumber(entry.weight);
+        const currentDateMs = dateForDayKey(day.key, weekKey).getTime();
+        const isPR = isNewPR(weightHistory, ex.name, currentDateMs, currentValue);
         const logBits = [entry.weight, entry.reps ? entry.reps + " reps" : ""].filter(Boolean).join(" × ");
-        const summaryHTML = (!expanded && logBits) ? `<div class="log-summary">${logBits}</div>` : "";
+        const prBadgeHTML = isPR ? ` <span class="pr-badge">🏆 PR</span>` : "";
+        const dropsetTagHTML = ex.dropSet ? `<div class="dropset-tag">🔻 Last set is a drop set</div>` : "";
+        const summaryHTML = (!expanded && logBits) ? `<div class="log-summary">${logBits}${prBadgeHTML}</div>` : "";
         const panelHTML = expanded ? `<div class="log-panel">
             <div class="log-field">
-              <label>Weight</label>
+              <label>Weight${isPR ? ' <span class="pr-badge">🏆 PR</span>' : ''}</label>
               <input type="text" inputmode="decimal" placeholder="e.g. 135 lb" value="${escAttr(entry.weight)}" data-weight-ex="${ex.id}" />
             </div>
             <div class="log-field">
@@ -1076,7 +1682,8 @@
               <input type="text" inputmode="numeric" placeholder="e.g. 8" value="${escAttr(entry.reps)}" data-reps-ex="${ex.id}" />
             </div>
           </div>` : "";
-        return `<div class="exercise-row-wrap">
+        return `<div class="exercise-row-wrap ${groupClass}">
+          ${groupTagHTML}
           <div class="exercise-row ${entry.done ? 'done' : ''}">
             <div class="checkbox ${entry.done ? 'checked' : ''}" data-check-ex="${ex.id}">
               ${entry.done ? '<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#131319" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}
@@ -1084,15 +1691,20 @@
             <div class="exercise-info" data-expand-ex="${ex.id}">
               <div class="exercise-name">${ex.name}</div>
               <div class="exercise-target">${ex.target}</div>
+              ${dropsetTagHTML}
               ${summaryHTML}
             </div>
-            <button class="sets-pill ${setsComplete ? 'complete' : ''}" data-sets-ex="${ex.id}" title="Tap to log a set">${entry.setsCompleted}/${totalSets}</button>
+            <button class="sets-pill ${setsComplete ? 'complete' : ''} ${ex.dropSet ? 'has-dropset' : ''}" data-sets-ex="${ex.id}" title="Tap to log a set">${entry.setsCompleted}/${totalSets}${ex.dropSet ? ' 🔻' : ''}</button>
             <div class="expand-chevron" data-expand-ex="${ex.id}">${expanded ? '▴' : '▾'}</div>
           </div>
           ${panelHTML}
         </div>`;
       }).join("");
     }
+
+    const groupActionHTML = (editMode && groupSelectSet.size >= 2)
+      ? `<button class="add-exercise-btn group-action-btn" id="group-selected-btn">🔗 Group as Superset (${groupSelectSet.size} selected)</button>`
+      : "";
 
     const addSectionHTML = editMode
       ? (addFormOpen
@@ -1109,7 +1721,9 @@
 
     return `<div class="card">
       <div class="card-head">
-        <span class="focus-label">${focusLabel}</span>
+        ${editMode
+          ? `<input type="text" class="day-title-input" data-day-focus-input="${day.key}" value="${escAttr(day.focus)}" maxlength="60" />`
+          : `<span class="focus-label">${focusLabel}</span>`}
         <div class="card-head-right">
           ${!editMode ? `<span class="progress-chip">${doneCount}/${exercises.length}</span>` : ""}
           ${editToggleBtn}
@@ -1117,6 +1731,7 @@
       </div>
       ${!editMode ? `<div class="card-sub">REST 2-3 MIN COMPOUND · 60-90S ISOLATION · LEAVE 1-2 IN TANK</div>` : ""}
       <div class="exercise-rows-container" id="exercise-rows">${rowsHTML}</div>
+      ${groupActionHTML}
       ${addSectionHTML}
     </div>`;
   }
@@ -1193,8 +1808,68 @@
     </div>`;
   }
 
+  function buildTimerCard(dayKey) {
+    if (activeSession) {
+      if (activeSession.dayKey === dayKey) {
+        const { exerciseSeconds, restSeconds, totalSeconds } = currentElapsedSeconds(activeSession);
+        const isExercise = activeSession.mode === "exercise";
+        const rc = restCountdownInfo(activeSession);
+        const restCountdownHTML = rc
+          ? `<div class="rest-countdown ${rc.isOver ? 'over' : ''}" id="timer-rest-countdown">${rc.isOver ? `Rest complete +${formatDuration(-rc.remaining)}` : `Rest: ${formatDuration(rc.remaining)} left`}</div>`
+          : "";
+        return `<div class="card timer-card">
+          <div class="card-head">
+            <span class="focus-label timer-title">Workout Timer</span>
+            <span class="timer-mode-badge ${isExercise ? 'exercise' : 'rest'}">${isExercise ? 'EXERCISING' : 'RESTING'}</span>
+          </div>
+          <div class="timer-total-display" id="timer-total">${formatDuration(totalSeconds)}</div>
+          ${restCountdownHTML}
+          <div class="timer-split-row">
+            <div class="timer-split">
+              <span class="timer-split-label">Exercise</span>
+              <span class="timer-split-value" id="timer-exercise">${formatDuration(exerciseSeconds)}</span>
+            </div>
+            <div class="timer-split">
+              <span class="timer-split-label">Rest</span>
+              <span class="timer-split-value" id="timer-rest">${formatDuration(restSeconds)}</span>
+            </div>
+          </div>
+          <div class="timer-actions">
+            <button class="form-btn ${isExercise ? 'secondary' : 'primary'}" id="timer-toggle-btn">${isExercise ? '⏸ Switch to Rest' : '▶ Switch to Exercise'}</button>
+            <button class="form-btn danger" id="timer-stop-btn">⏹ Stop</button>
+          </div>
+          <button class="timer-discard-link" id="timer-discard-btn">Discard this session</button>
+        </div>`;
+      }
+      const { totalSeconds } = currentElapsedSeconds(activeSession);
+      const sessionDayLabel = (PROGRAM.find(d => d.key === activeSession.dayKey) || {}).label || activeSession.dayKey;
+      return `<div class="card timer-card timer-banner">
+        <span class="timer-banner-text">Workout running for ${sessionDayLabel} — <span id="timer-banner-elapsed">${formatDuration(totalSeconds)}</span></span>
+        <button class="history-btn" id="timer-jump-btn">View</button>
+      </div>`;
+    }
+
+    const dp = progress[dayKey] || {};
+    const lastSummary = dp.workoutTimer;
+    const summaryHTML = lastSummary
+      ? `<div class="timer-last-summary">
+          <span>Last session: ${formatDuration(lastSummary.totalSeconds)} <span class="timer-summary-split">(${formatDuration(lastSummary.exerciseSeconds)} exercise · ${formatDuration(lastSummary.restSeconds)} rest)</span></span>
+          <button class="timer-clear-btn" data-clear-timer="${dayKey}" title="Clear this session">✕</button>
+        </div>`
+      : "";
+
+    return `<div class="card timer-card">
+      <div class="card-head">
+        <span class="focus-label timer-title">Workout Timer</span>
+      </div>
+      ${summaryHTML}
+      <button class="form-btn primary" id="timer-start-btn" style="width:100%;padding:13px;">▶ Start Workout</button>
+    </div>`;
+  }
+
   function render() {
-    if (view === "history-list") { renderHistoryList(); return; }
+    if (view === "history-months") { renderHistoryMonths(); return; }
+    if (view === "history-month-detail") { renderHistoryMonthDetail(); return; }
     if (view === "history-detail") { renderHistoryDetail(); return; }
     if (view === "programs-list") { renderProgramsList(); return; }
     if (view === "charts-list") { renderChartsList(); return; }
@@ -1227,9 +1902,8 @@
 
     const cardHTML = buildCardHTML(activeDayData);
     const suppHTML = buildSupplementsCard(activeDay);
-    const toastHTML = undoToast
-      ? `<div class="undo-toast"><span>${undoToast.message}</span><button id="undo-toast-btn">Undo</button></div>`
-      : "";
+    const timerHTML = buildTimerCard(activeDay);
+    const toastHTML = toastMarkup();
 
     app.innerHTML = `
       <div class="header">
@@ -1248,6 +1922,7 @@
         <div class="barbell-label"><span class="barbell-count">${completedTrainingDays}</span><span>/${trainingKeys.length} sessions loaded this week</span></div>
       </div>
       <div class="day-tabs">${tabsHTML}</div>
+      ${timerHTML}
       ${cardHTML}
       ${suppHTML}
       <div class="footer-note">Progress resets automatically every Monday</div>
@@ -1255,7 +1930,7 @@
     `;
 
     document.getElementById("open-history-btn").addEventListener("click", () => {
-      view = "history-list";
+      view = "history-months";
       render();
     });
 
@@ -1271,14 +1946,55 @@
       render();
     });
 
-    const undoBtn = app.querySelector("#undo-toast-btn");
-    if (undoBtn) {
-      undoBtn.addEventListener("click", () => {
-        if (undoToast && undoToast.undo) undoToast.undo();
-        dismissUndoToast();
+    const timerStartBtn = app.querySelector("#timer-start-btn");
+    if (timerStartBtn) {
+      timerStartBtn.addEventListener("click", () => {
+        startWorkoutSession(activeDay);
         render();
       });
     }
+
+    const timerToggleBtn = app.querySelector("#timer-toggle-btn");
+    if (timerToggleBtn) {
+      timerToggleBtn.addEventListener("click", () => {
+        toggleSessionMode();
+        render();
+      });
+    }
+
+    const timerStopBtn = app.querySelector("#timer-stop-btn");
+    if (timerStopBtn) {
+      timerStopBtn.addEventListener("click", () => {
+        stopWorkoutSession();
+        render();
+      });
+    }
+
+    const timerDiscardBtn = app.querySelector("#timer-discard-btn");
+    if (timerDiscardBtn) {
+      timerDiscardBtn.addEventListener("click", () => {
+        discardWorkoutSession();
+        render();
+      });
+    }
+
+    app.querySelectorAll("[data-clear-timer]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        clearWorkoutTimer(btn.getAttribute("data-clear-timer"));
+        render();
+      });
+    });
+
+    const timerJumpBtn = app.querySelector("#timer-jump-btn");
+    if (timerJumpBtn) {
+      timerJumpBtn.addEventListener("click", () => {
+        activeDay = activeSession.dayKey;
+        resetTransientState();
+        render();
+      });
+    }
+
+    bindToastEvents(app);
 
     app.querySelectorAll(".day-tab").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -1356,6 +2072,7 @@
         editMode = !editMode;
         addFormOpen = false;
         expandedSet = new Set();
+        groupSelectSet = new Set();
         render();
       });
     }
@@ -1363,6 +2080,79 @@
     app.querySelectorAll("[data-remove-ex]").forEach(btn => {
       btn.addEventListener("click", () => {
         removeExercise(activeDay, btn.getAttribute("data-remove-ex"));
+        render();
+      });
+    });
+
+    app.querySelectorAll("[data-rename-ex]").forEach(input => {
+      input.addEventListener("change", () => {
+        const exId = input.getAttribute("data-rename-ex");
+        const field = input.getAttribute("data-field");
+        const day = PROGRAM.find(d => d.key === activeDay);
+        if (!day || !Array.isArray(day.exercises)) return;
+        const ex = day.exercises.find(e => e.id === exId);
+        if (!ex) return;
+        const value = input.value.trim();
+        if (field === "name" && !value) {
+          input.value = ex.name;
+          return;
+        }
+        ex[field] = value || (field === "target" ? "—" : ex[field]);
+        saveProgram();
+        render();
+      });
+    });
+
+    app.querySelectorAll("[data-day-focus-input]").forEach(input => {
+      input.addEventListener("change", () => {
+        const dayKey = input.getAttribute("data-day-focus-input");
+        const day = PROGRAM.find(d => d.key === dayKey);
+        if (!day) return;
+        const value = input.value.trim();
+        if (!value) {
+          input.value = day.focus;
+          return;
+        }
+        day.focus = value;
+        saveProgram();
+        render();
+      });
+    });
+
+    app.querySelectorAll("[data-group-select]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const exId = btn.getAttribute("data-group-select");
+        if (groupSelectSet.has(exId)) groupSelectSet.delete(exId);
+        else groupSelectSet.add(exId);
+        render();
+      });
+    });
+
+    app.querySelectorAll("[data-ungroup-ex]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        removeFromSuperset(activeDay, btn.getAttribute("data-ungroup-ex"));
+        render();
+      });
+    });
+
+    const groupSelectedBtn = app.querySelector("#group-selected-btn");
+    if (groupSelectedBtn) {
+      groupSelectedBtn.addEventListener("click", () => {
+        createSuperset(activeDay);
+        render();
+      });
+    }
+
+    app.querySelectorAll("[data-dropset-ex]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const exId = btn.getAttribute("data-dropset-ex");
+        const day = PROGRAM.find(d => d.key === activeDay);
+        if (!day || !Array.isArray(day.exercises)) return;
+        const ex = day.exercises.find(e => e.id === exId);
+        if (!ex) return;
+        if (ex.dropSet) delete ex.dropSet;
+        else ex.dropSet = true;
+        saveProgram();
         render();
       });
     });
@@ -1634,6 +2424,7 @@
       <div class="history-list">${rowsHTML}</div>
       ${addSectionHTML}
       ${backupHTML}
+      ${toastMarkup()}
     `;
 
     document.getElementById("back-to-today-from-programs-btn").addEventListener("click", () => {
@@ -1715,6 +2506,8 @@
         render();
       });
     });
+
+    bindToastEvents(app);
 
     const openAddProgramBtn = app.querySelector("#open-add-program");
     if (openAddProgramBtn) {
@@ -1836,40 +2629,114 @@
     });
   }
 
-  function renderHistoryList() {
+  function renderHistoryMonths() {
     const app = document.getElementById("app");
-    const weeks = listStoredWeeks();
-    const rowsHTML = weeks.length === 0
-      ? `<div class="empty-state">No past weeks logged yet. Once a week ends, it'll show up here.</div>`
-      : weeks.map(wk => {
-          const { daysWithActivity, exercisesLogged } = summarizeWeek(wk);
-          const isCurrent = wk === weekKey;
-          return `<button class="history-row" data-week="${wk}">
-            <div class="history-row-main">
-              <span class="history-row-range">${formatWeekRange(wk)}</span>
-              ${isCurrent ? '<span class="history-row-tag">This week</span>' : ''}
-            </div>
-            <span class="history-row-stat">${daysWithActivity} day${daysWithActivity === 1 ? '' : 's'} active · ${exercisesLogged} exercise${exercisesLogged === 1 ? '' : 's'} logged</span>
-          </button>`;
+    const byMonth = groupWeeksByMonth();
+    const monthKeys = Object.keys(byMonth).sort().reverse();
+
+    const byYear = {};
+    monthKeys.forEach(mk => {
+      const y = mk.slice(0, 4);
+      if (!byYear[y]) byYear[y] = [];
+      byYear[y].push(mk);
+    });
+    const years = Object.keys(byYear).sort().reverse();
+
+    const sectionsHTML = years.length === 0
+      ? `<div class="empty-state">No history yet. Once you log a week, it'll show up here.</div>`
+      : years.map(year => {
+          const tiles = byYear[year].map(mk => {
+            const monthDate = new Date(mk + "-01T00:00:00");
+            const monthLabel = monthDate.toLocaleDateString(undefined, { month: "short" });
+            const stats = computeMonthStats(byMonth[mk]);
+            return `<button class="month-tile" data-month="${mk}">
+              <span class="month-tile-name">${monthLabel}</span>
+              <span class="month-tile-stat">${stats.daysActive} day${stats.daysActive === 1 ? '' : 's'}</span>
+            </button>`;
+          }).join("");
+          return `<div class="year-section">
+            <div class="year-label">${year}</div>
+            <div class="month-grid">${tiles}</div>
+          </div>`;
         }).join("");
 
     app.innerHTML = `
       <div class="header">
         <div class="header-text">
           <span class="eyebrow">Home Gym — History</span>
-          <span class="title">Past Weeks</span>
+          <span class="title">Calendar</span>
         </div>
-        <button class="history-btn" id="back-to-today-btn">← Today</button>
+        <button class="history-btn" id="back-to-today-from-history-btn">← Today</button>
       </div>
-      <div class="history-list">${rowsHTML}</div>
+      ${sectionsHTML}
     `;
 
-    document.getElementById("back-to-today-btn").addEventListener("click", () => {
+    document.getElementById("back-to-today-from-history-btn").addEventListener("click", () => {
       view = "today";
       render();
     });
 
-    app.querySelectorAll(".history-row").forEach(btn => {
+    app.querySelectorAll("[data-month]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        historyMonthKey = btn.getAttribute("data-month");
+        view = "history-month-detail";
+        render();
+      });
+    });
+  }
+
+  function renderHistoryMonthDetail() {
+    const app = document.getElementById("app");
+    const byMonth = groupWeeksByMonth();
+    const weekKeys = (byMonth[historyMonthKey] || []).slice().sort().reverse();
+    const stats = computeMonthStats(weekKeys);
+    const monthDate = new Date(historyMonthKey + "-01T00:00:00");
+    const monthLabel = monthDate.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+
+    const avgDurationLabel = stats.sessionsWithDuration > 0 ? formatDuration(stats.avgDuration) : "—";
+    const totalDurationLabel = stats.totalDurationSeconds > 0 ? formatDuration(stats.totalDurationSeconds) : "—";
+
+    const statsHTML = `<div class="card stats-card">
+      <div class="stats-grid">
+        <div class="stat-tile"><span class="stat-value">${stats.daysActive}</span><span class="stat-label">Active Days</span></div>
+        <div class="stat-tile"><span class="stat-value">${stats.exercisesLogged}</span><span class="stat-label">Exercises Done</span></div>
+        <div class="stat-tile"><span class="stat-value">${stats.setsLogged}</span><span class="stat-label">Sets Logged</span></div>
+        <div class="stat-tile"><span class="stat-value">${avgDurationLabel}</span><span class="stat-label">Avg Workout</span></div>
+        <div class="stat-tile"><span class="stat-value">${totalDurationLabel}</span><span class="stat-label">Total Time</span></div>
+        <div class="stat-tile"><span class="stat-value">${Math.round(stats.totalWeightVolume).toLocaleString()}</span><span class="stat-label">Volume (wt×reps)</span></div>
+      </div>
+    </div>`;
+
+    const weeksHTML = weekKeys.map(wk => {
+      const { daysWithActivity, exercisesLogged } = summarizeWeek(wk);
+      const isCurrent = wk === weekKey;
+      return `<button class="history-row" data-week="${wk}">
+        <div class="history-row-main">
+          <span class="history-row-range">${formatWeekRange(wk)}</span>
+          ${isCurrent ? '<span class="history-row-tag">This week</span>' : ''}
+        </div>
+        <span class="history-row-stat">${daysWithActivity} day${daysWithActivity === 1 ? '' : 's'} active · ${exercisesLogged} exercise${exercisesLogged === 1 ? '' : 's'} logged</span>
+      </button>`;
+    }).join("");
+
+    app.innerHTML = `
+      <div class="header">
+        <div class="header-text">
+          <span class="eyebrow">Home Gym — History</span>
+          <span class="title">${monthLabel}</span>
+        </div>
+        <button class="history-btn" id="back-to-months-btn">← Calendar</button>
+      </div>
+      ${statsHTML}
+      <div class="history-list">${weeksHTML}</div>
+    `;
+
+    document.getElementById("back-to-months-btn").addEventListener("click", () => {
+      view = "history-months";
+      render();
+    });
+
+    app.querySelectorAll("[data-week]").forEach(btn => {
       btn.addEventListener("click", () => {
         historyWeekKey = btn.getAttribute("data-week");
         view = "history-detail";
@@ -1881,12 +2748,15 @@
   function renderHistoryDetail() {
     const app = document.getElementById("app");
     const wp = loadProgress(historyWeekKey);
+    const weekStats = computeMonthStats([historyWeekKey]);
+    const weekStatsHTML = `<div class="week-stats-strip">${weekStats.daysActive} active day${weekStats.daysActive === 1 ? '' : 's'} · ${weekStats.setsLogged} sets · ${weekStats.exercisesLogged} exercise${weekStats.exercisesLogged === 1 ? '' : 's'}${weekStats.totalDurationSeconds > 0 ? ' · ' + formatDuration(weekStats.totalDurationSeconds) + ' total time' : ''}</div>`;
+    const weightHistory = collectWeightHistory();
 
     const daysHTML = DAY_ORDER.map(dayKey => {
       const dayLabel = (DEFAULT_PROGRAM.find(d => d.key === dayKey) || {}).label || dayKey;
       const entries = wp[dayKey] || {};
       const list = Object.keys(entries)
-        .filter(k => k !== "supplements")
+        .filter(k => k !== "supplements" && k !== "workoutTimer")
         .map(exId => normalizeEntryRaw(entries[exId]))
         .filter(e => e.done || e.weight || e.reps);
 
@@ -1900,24 +2770,32 @@
       }
       const suppHTML = suppLines.length ? `<div class="history-supp-line">💊 ${suppLines.join("   ·   ")}</div>` : "";
 
-      if (list.length === 0 && suppLines.length === 0) {
+      const timerSummary = entries.workoutTimer;
+      const timerHTML = timerSummary
+        ? `<div class="history-supp-line">⏱ ${formatDuration(timerSummary.totalSeconds)} total (${formatDuration(timerSummary.exerciseSeconds)} exercise · ${formatDuration(timerSummary.restSeconds)} rest)</div>`
+        : "";
+
+      if (list.length === 0 && suppLines.length === 0 && !timerSummary) {
         return `<div class="history-day">
           <div class="history-day-label">${dayLabel}</div>
           <div class="history-day-empty">No activity logged</div>
         </div>`;
       }
+      const dayDateMs = dateForDayKey(dayKey, historyWeekKey).getTime();
       const rows = list.map(e => {
         const setsInfo = e.setsCompleted > 0 ? `${e.setsCompleted}/${parseTotalSets(e.target)} sets` : "";
         const logBits = [e.weight, e.reps ? e.reps + " reps" : "", setsInfo].filter(Boolean).join(" × ") || (e.done ? "Completed" : "");
+        const isPR = isNewPR(weightHistory, e.name, dayDateMs, extractNumber(e.weight));
         return `<div class="history-ex-row">
           <span class="history-ex-name">${e.name || "Exercise"}</span>
-          <span class="history-ex-log">${logBits}</span>
+          <span class="history-ex-log">${logBits}${isPR ? ' <span class="pr-badge">🏆 PR</span>' : ''}</span>
         </div>`;
       }).join("");
       return `<div class="history-day">
         <div class="history-day-label">${dayLabel}</div>
         ${rows}
         ${suppHTML}
+        ${timerHTML}
       </div>`;
     }).join("");
 
@@ -1927,13 +2805,15 @@
           <span class="eyebrow">Home Gym — History</span>
           <span class="title">${formatWeekRange(historyWeekKey)}</span>
         </div>
-        <button class="history-btn" id="back-to-list-btn">← Weeks</button>
+        <button class="history-btn" id="back-to-month-detail-btn">← Weeks</button>
       </div>
+      ${weekStatsHTML}
       <div class="history-detail">${daysHTML}</div>
     `;
 
-    document.getElementById("back-to-list-btn").addEventListener("click", () => {
-      view = "history-list";
+    document.getElementById("back-to-month-detail-btn").addEventListener("click", () => {
+      historyMonthKey = historyWeekKey.slice(0, 7);
+      view = "history-month-detail";
       render();
     });
   }
@@ -1950,6 +2830,9 @@
       render();
     }
   }, 60000);
+
+  // Live-update the workout timer display without a full re-render
+  setInterval(tickTimerDisplay, 1000);
 
   render();
 </script>
