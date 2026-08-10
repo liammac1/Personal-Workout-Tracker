@@ -357,6 +357,21 @@
   .form-btn { flex: 1; padding: 10px; border-radius: 8px; border: none; font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; }
   .form-btn.primary { background: var(--accent); color: var(--bg); }
   .form-btn.secondary { background: var(--steel); color: var(--text-primary); }
+  .form-btn.textcopy {
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    border: 1.5px dashed var(--rest);
+    color: var(--rest);
+  }
+  .textcopy-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--steel-light);
+    text-transform: none;
+  }
 
   .history-list { display: flex; flex-direction: column; gap: 8px; }
   .history-row {
@@ -1513,6 +1528,49 @@
     }
   }
 
+  function formatSplitText(programEntry) {
+    const lines = [];
+    (programEntry.days || []).forEach(day => {
+      lines.push(day.label);
+      lines.push("");
+      if (day.rest) {
+        lines.push("* Rest");
+      } else {
+        const exercises = day.exercises || [];
+        if (exercises.length === 0) {
+          lines.push("* (no exercises)");
+        } else {
+          exercises.forEach(ex => lines.push(`* ${ex.name} — ${ex.target}`));
+        }
+      }
+      lines.push("");
+    });
+    return lines.join("\n").trim();
+  }
+
+  async function copyTextToClipboard(text) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (e) {}
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      const success = document.execCommand("copy");
+      document.body.removeChild(textarea);
+      return success;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function importBackupFile(file) {
     const reader = new FileReader();
     reader.onload = () => {
@@ -2404,13 +2462,21 @@
       <div class="backup-section">
         <div class="backup-divider"></div>
         <div class="backup-title">Backup &amp; Restore</div>
-        <div class="backup-desc">Save all your programs, weekly logs, and supplements to a file you can keep somewhere safe — or restore from one.</div>
+        <div class="backup-desc">Save all your programs, weekly logs, and supplements to a data file you can keep somewhere safe — or restore from one.</div>
         <div class="backup-actions">
           <button class="form-btn secondary" id="export-backup-btn">⬇ Export Backup</button>
           <button class="form-btn secondary" id="import-backup-btn">⬆ Import Backup</button>
         </div>
         <input type="file" id="import-backup-input" accept="application/json" style="display:none;" />
         ${importError ? `<div class="backup-error">${importError}</div>` : ""}
+      </div>`;
+
+    const copySplitHTML = `
+      <div class="backup-section">
+        <div class="backup-divider"></div>
+        <div class="backup-title">Copy My Split <span class="textcopy-note">(plain text, not a data file)</span></div>
+        <div class="backup-desc">Copies your current program as a simple, readable text list — perfect for pasting into a text message. This is separate from Export Backup above, which saves your full data for restoring on this app.</div>
+        <button class="form-btn textcopy" id="copy-split-btn">💬 Copy My Split as Text</button>
       </div>`;
 
     app.innerHTML = `
@@ -2424,12 +2490,21 @@
       <div class="history-list">${rowsHTML}</div>
       ${addSectionHTML}
       ${backupHTML}
+      ${copySplitHTML}
       ${toastMarkup()}
     `;
 
     document.getElementById("back-to-today-from-programs-btn").addEventListener("click", () => {
       view = "today";
       resetTransientState();
+      render();
+    });
+
+    document.getElementById("copy-split-btn").addEventListener("click", async () => {
+      const activeEntry = getActiveProgramEntry();
+      const text = formatSplitText(activeEntry);
+      const success = await copyTextToClipboard(text);
+      showUndoToast({ message: success ? "Split copied to clipboard!" : "Couldn't copy — try again" });
       render();
     });
 
