@@ -327,8 +327,18 @@
   .sets-pill.complete { background: var(--accent); color: var(--bg); border-color: var(--accent); }
   .sets-pill:active { transform: scale(0.96); }
 
-  .log-panel { display: flex; gap: 10px; padding: 0 2px 14px 40px; }
+  .log-panel { display: flex; flex-direction: column; gap: 8px; padding: 0 2px 14px 40px; }
+  .log-panel-fields { display: flex; gap: 10px; }
   .log-field { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .last-log-hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    background: var(--surface-alt);
+    padding: 7px 10px;
+    border-radius: 8px;
+  }
+  .last-log-date { color: var(--steel-light); }
   .log-field label { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--steel-light); }
   .log-field input {
     background: var(--surface-alt); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
@@ -1631,6 +1641,14 @@
     return currentValue > Math.max(...priorValues);
   }
 
+  function getLastLog(weightHistory, name, currentDateMs) {
+    if (!weightHistory) return null;
+    const points = weightHistory[name] || [];
+    const prior = points.filter(p => p.date.getTime() < currentDateMs);
+    if (prior.length === 0) return null;
+    return prior[prior.length - 1];
+  }
+
   function buildLineChartSVG(points) {
     const padding = { left: 34, right: 16, top: 22, bottom: 26 };
     const pointSpacing = 56;
@@ -1726,18 +1744,25 @@
         const currentValue = extractNumber(entry.weight);
         const currentDateMs = dateForDayKey(day.key, weekKey).getTime();
         const isPR = isNewPR(weightHistory, ex.name, currentDateMs, currentValue);
+        const lastLog = expanded ? getLastLog(weightHistory, ex.name, currentDateMs) : null;
         const logBits = [entry.weight, entry.reps ? entry.reps + " reps" : ""].filter(Boolean).join(" × ");
         const prBadgeHTML = isPR ? ` <span class="pr-badge">🏆 PR</span>` : "";
         const dropsetTagHTML = ex.dropSet ? `<div class="dropset-tag">🔻 Last set is a drop set</div>` : "";
         const summaryHTML = (!expanded && logBits) ? `<div class="log-summary">${logBits}${prBadgeHTML}</div>` : "";
+        const lastLogHTML = lastLog
+          ? `<div class="last-log-hint">Last time: ${lastLog.weightLabel}${lastLog.reps ? ' × ' + lastLog.reps + ' reps' : ''} <span class="last-log-date">(${lastLog.date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })})</span></div>`
+          : "";
         const panelHTML = expanded ? `<div class="log-panel">
-            <div class="log-field">
-              <label>Weight${isPR ? ' <span class="pr-badge">🏆 PR</span>' : ''}</label>
-              <input type="text" inputmode="decimal" placeholder="e.g. 135 lb" value="${escAttr(entry.weight)}" data-weight-ex="${ex.id}" />
-            </div>
-            <div class="log-field">
-              <label>Reps</label>
-              <input type="text" inputmode="numeric" placeholder="e.g. 8" value="${escAttr(entry.reps)}" data-reps-ex="${ex.id}" />
+            ${lastLogHTML}
+            <div class="log-panel-fields">
+              <div class="log-field">
+                <label>Weight${isPR ? ' <span class="pr-badge">🏆 PR</span>' : ''}</label>
+                <input type="text" inputmode="decimal" placeholder="e.g. 135 lb" value="${escAttr(entry.weight)}" data-weight-ex="${ex.id}" />
+              </div>
+              <div class="log-field">
+                <label>Reps</label>
+                <input type="text" inputmode="numeric" placeholder="e.g. 8" value="${escAttr(entry.reps)}" data-reps-ex="${ex.id}" />
+              </div>
             </div>
           </div>` : "";
         return `<div class="exercise-row-wrap ${groupClass}">
